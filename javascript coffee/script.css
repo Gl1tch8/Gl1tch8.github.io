@@ -1,0 +1,36 @@
+body {
+    background-color: pink;
+
+    background-image: url('https://i.pinimg.com/736x/45/0e/b6/450eb63fd2923ac6d3aa55aa2c3189f2.jpg');
+    background-size: 1900px;
+}
+
+header {
+  font-style: bold;
+  font-size: 69px;
+  color: aliceblue;
+  font-family: lucida calligraphy;
+}
+
+.box {
+    background-color: rgb(174, 174, 255);
+    padding: 50px;
+    border-radius: 20px;
+    justify-self: center;
+    justify-items: center;
+}
+
+#title {
+  font-size: 24px;
+  font-family: papyrus;
+}
+
+#artist {
+  font-family: monospace;
+  font-size:16px;
+}
+
+.audio {
+  transform: scale(1.05);
+  background-color: pink;
+}
