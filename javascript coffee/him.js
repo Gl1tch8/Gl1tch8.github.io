@@ -15,7 +15,10 @@ think.onclick = function(){
 const music = document.getElementById("music");
 const title = document.getElementById("title");
 const artist = document.getElementById("artist");
+const back = document.getElementById("back");
+
 let wine = [
+    'wine/[Official Arctic Monkeys] I Wanna Be Yours.mp3',
     'wine/[Official Arctic Monkeys] 505.mp3',
     'wine/[Official Arctic Monkeys] Do I Wanna Know.mp3',
     'wine/[Official Arctic Monkeys] R U Mine.mp3',
@@ -39,9 +42,20 @@ document.getElementById("next").onclick = function(){
     i++;
     i %= wine.length;
     music.src = wine[i];
+}
+
+document.getElementById("back").onclick = function(){
+    if (i > 0)
+        i--;
+    else 
+        i = wine.length - 1;
+    music.src = wine[i];
+}
+
+music.addEventListener('play', function(){
     title.textContent = wine[i].replace('wine/','').replace(/\[.*?\]/,'').replace('.mp3','');
     artist.textContent = wine[i].replace('wine/[','').replace(/\].*/,'');
-}
+})
 
 music.addEventListener('ended', function(){
     document.getElementById("next").click();
