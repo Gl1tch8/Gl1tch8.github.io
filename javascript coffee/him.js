@@ -3,17 +3,32 @@ const submit = document.getElementById("submit");
 const titlee = document.getElementById("titlee");
 
 submit.onclick = function () {
-  let letter = input.value.trim().charAt(0).toUpperCase();
-  let rest = input.value.trim().slice(1).toLowerCase();
-  titlee.textContent = letter + rest;
+  titlee.textContent = input.value.trim().charAt(0).toUpperCase() + input.value.trim().slice(1).toLowerCase();
 };
 
-const think = document.getElementById("think");
-const ctr = document.getElementById("ctr");
-think.onclick = function () {
-  ctr.textContent++;
-};
+//calculator
+const display = document.getElementById("display");
+function print(input){
+    display.value += input;
+}
 
+function perform(){
+    try{
+        if (eval(display.value) == undefined)
+            display.value = "Skill Issue";
+        else
+            display.value = eval(display.value);
+    }
+    catch(error){
+        display.value = "Error!";
+    }
+}
+
+function clearD(){
+    display.value = "";
+}
+
+//playlist
 const music = document.getElementById("music");
 const title = document.getElementById("title");
 const artist = document.getElementById("artist");

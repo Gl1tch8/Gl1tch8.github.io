@@ -9,13 +9,39 @@
   <body>
     <!-- title -->
     <div class="box">
-      <header id="titlee">Capitalize</header>
-      <input id="input" />
+      <header id="titlee">Single Capitalization</header>
+      <input id="input"/>
       <button id="submit">submit</button>
+      <br><br>
 
-      <div style="justify-items: center">
-        <header id="ctr">1</header>
-        <button id="think">cookie</button>
+      <!-- calculator -->
+      <div class = "calc" style="justify-items: center">
+        Budget calcu
+        <br>
+        <input id="display" /><br><br>
+        <button onclick ="print('1')">1</button>
+        <button onclick ="print('2')">2</button>
+        <button onclick ="print('3')">3</button>
+        <button onclick ="print('+')">+</button>
+        <button onclick ="print('-')">-</button>
+        <br>
+        <button onclick ="print('4')">4</button>
+        <button onclick ="print('5')">5</button>
+        <button onclick ="print('6')">6</button>
+        <button onclick ="print('*')">x</button>
+        <button onclick ="print('/')">÷</button>
+        <br>
+        <button onclick ="print('7')">7</button>
+        <button onclick ="print('8')">8</button>
+        <button onclick ="print('9')">9</button>
+        <button onclick ="clearD()">C</button>
+        <br>
+        <button onclick ="print('.')">.</button>
+        <button onclick ="print('0')">0</button>
+        <button onclick ="perform()">=</button>
+        
+
+
       </div>
       <br /><br />
 
@@ -27,7 +53,7 @@
 
         <button id="back">
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Arrow-go-back-line.svg/640px-Arrow-go-back-line.svg.png"
-          style="width:50px">
+          style="width:30px">
         </button>
         
         <audio autoplay controls id="music">
@@ -36,7 +62,7 @@
         <button id="next">
           <img
             src="https://www.svgrepo.com/show/451710/media-playback-start.svg"
-            style="width: 50px"
+            style="width: 30px"
           />
         </button>
       </div>

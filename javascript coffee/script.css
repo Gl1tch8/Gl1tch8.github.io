@@ -1,6 +1,5 @@
 body {
     background-color: pink;
-
     background-image: url('https://i.pinimg.com/736x/45/0e/b6/450eb63fd2923ac6d3aa55aa2c3189f2.jpg');
     background-size: 1900px;
 }
@@ -11,13 +10,28 @@ header {
   color: aliceblue;
   font-family: lucida calligraphy;
 }
+button {
+  background-color: rgb(186, 255, 216);
+  border-width: 5px; 
+  border-color:rgb(174, 174, 255);
+}
 
+input {
+  background-color: rgb(219, 219, 219);
+  border-width: 5px; 
+  border-color:rgb(255, 255, 118);
+}
 .box {
     background-color: rgb(174, 174, 255);
     padding: 50px;
     border-radius: 20px;
     justify-self: center;
     justify-items: center;
+}
+.calc {
+  background-color: rgb(255, 255, 118);
+  padding: 30px;
+  
 }
 
 #title {
@@ -34,3 +48,4 @@ audio {
   transform: scale(1.05);
   background-color: pink;
 }
+
