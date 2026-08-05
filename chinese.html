@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English-Chinese Learning Hub</title>
+    <style>
+        :root {
+            --bg-color: #0f1117;
+            --card-bg: #1a1d24;
+            --card-hover: #242832;
+            --accent-gold: #cdab7b;
+            --text-main: #f0f2f5;
+            --text-sub: #9aa0a6;
+            --zh-color: #e5c07b;
+            --gloss-color: #61afef;
+            --en-color: #98c379;
+            --border-color: #2d3139;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+        }
+
+        .top-nav {
+            margin-bottom: 12px;
+        }
+
+        .top-nav a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .top-nav a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+        }
+
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            padding: 10px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .placeholder-box {
+            background-color: var(--card-bg);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            color: var(--text-sub);
+        }
+
+        /* Song List Grid */
+        .song-list-title {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            color: var(--accent-gold);
+        }
+
+        .songs-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .song-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .song-card:hover {
+            background-color: var(--card-hover);
+            border-color: var(--accent-gold);
+        }
+
+        .song-info .song-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .song-info .song-artist {
+            font-size: 0.88rem;
+            color: var(--text-sub);
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .badge-sample {
+            background-color: rgba(205, 171, 123, 0.2);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+        }
+
+        .badge-placeholder {
+            background-color: rgba(154, 160, 166, 0.1);
+            color: var(--text-sub);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Lyrics View */
+        .lyrics-view {
+            display: none;
+        }
+
+        .lyrics-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .back-btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--accent-gold);
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background-color: var(--card-hover);
+        }
+
+        .song-meta h2 {
+            font-size: 1.4rem;
+            color: var(--text-main);
+        }
+
+        .song-meta span {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+        }
+
+        .lyrics-legend {
+            display: flex;
+            gap: 16px;
+            background-color: var(--card-bg);
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .dot-zh { background-color: var(--zh-color); }
+        .dot-gloss { background-color: var(--gloss-color); }
+        .dot-en { background-color: var(--en-color); }
+
+        .lyrics-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .strophe {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        /* Aligned Word-Level Container */
+        .word-pairs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            margin-bottom: 10px;
+        }
+
+        .word-unit {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.03);
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .zh-word {
+            color: var(--zh-color);
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        /* Thinner font for word-level English translations */
+        .gloss-word {
+            color: var(--gloss-color);
+            font-size: 0.82rem;
+            font-weight: 200;
+            margin-top: 2px;
+            line-height: 1.2;
+        }
+
+        .line-en {
+            color: var(--en-color);
+            font-size: 0.95rem;
+            font-style: italic;
+            margin-top: 4px;
+            padding-left: 2px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.05);
+            padding-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="top-nav">
+            <a href="index.html">← Back to Main Page</a>
+        </div>
+        <h1>Chinese-English Learning Hub</h1>
+        <div class="subtitle">Interactive learning through song lyrics, vocabulary, and grammar</div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('lyrics')">Song Lyrics</button>
+        <button class="tab-btn" onclick="switchTab('vocab')">Vocabulary</button>
+        <button class="tab-btn" onclick="switchTab('grammar')">Grammar</button>
+        <button class="tab-btn" onclick="switchTab('flashcards')">Flashcards</button>
+    </div>
+
+    <!-- Song Lyrics Tab Content -->
+    <div id="tab-lyrics" class="tab-content active">
+        
+        <!-- Song List View -->
+        <div id="song-list-view">
+            <div class="song-list-title">Select a Song to Learn</div>
+            <div class="songs-grid">
+                
+                <div class="song-card" onclick="openSong(1)">
+                    <div class="song-info">
+                        <div class="song-title">缠 (Chán)</div>
+                        <div class="song-artist">Overdo</div>
+                    </div>
+                    <span class="badge badge-sample">Sample Lyrics</span>
+                </div>
+
+                <div class="song-card" onclick="openSong(2)">
+                    <div class="song-info">
+                        <div class="song-title">光年之外 (Light Years Away)</div>
+                        <div class="song-artist">G.E.M. (邓紫棋)</div>
+                    </div>
+                    <span class="badge badge-placeholder">Placeholder</span>
+                </div>
+
+                <div class="song-card" onclick="openSong(3)">
+                    <div class="song-info">
+                        <div class="song-title">青花瓷 (Blue and White Porcelain)</div>
+                        <div class="song-artist">Jay Chou (周杰伦)</div>
+                    </div>
+                    <span class="badge badge-placeholder">Placeholder</span>
+                </div>
+
+                <div class="song-card" onclick="openSong(4)">
+                    <div class="song-info">
+                        <div class="song-title">演员 (Actor)</div>
+                        <div class="song-artist">Joker Xue (薛之谦)</div>
+                    </div>
+                    <span class="badge badge-placeholder">Placeholder</span>
+                </div>
+
+                <div class="song-card" onclick="openSong(5)">
+                    <div class="song-info">
+                        <div class="song-title">平凡之路 (The Ordinary Road)</div>
+                        <div class="song-artist">Pu Shu (朴树)</div>
+                    </div>
+                    <span class="badge badge-placeholder">Placeholder</span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Lyrics View for Song 1 (缠 - Overdo) -->
+        <div id="lyrics-view-1" class="lyrics-view">
+            <div class="lyrics-header">
+                <button class="back-btn" onclick="closeSong()">← Back to Songs</button>
+                <div class="song-meta">
+                    <h2>缠 (Chán)</h2>
+                    <span>Artist: Overdo</span>
+                </div>
+            </div>
+
+            <div class="lyrics-legend">
+                <div class="legend-item"><span class="dot dot-zh"></span> Chinese Word</div>
+                <div class="legend-item"><span class="dot dot-gloss"></span> Word-level English (Thin Font)</div>
+                <div class="legend-item"><span class="dot dot-en"></span> Whole-line English</div>
+            </div>
+
+            <div id="song1-lyrics-container" class="lyrics-container">
+                <!-- Dynamically generated word-aligned lyrics -->
+            </div>
+        </div>
+
+        <!-- Generic Placeholder Lyrics View -->
+        <div id="lyrics-view-placeholder" class="lyrics-view">
+            <div class="lyrics-header">
+                <button class="back-btn" onclick="closeSong()">← Back to Songs</button>
+                <div class="song-meta">
+                    <h2 id="placeholder-song-title">Song Placeholder</h2>
+                    <span id="placeholder-song-artist">Artist</span>
+                </div>
+            </div>
+            <div class="placeholder-box">
+                Lyrics breakdowns for this song will be added soon.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Vocabulary Tab Content Placeholder -->
+    <div id="tab-vocab" class="tab-content">
+        <div class="placeholder-box">
+            <h3>Vocabulary Learning Module</h3>
+            <p>Word lists and HSK flashcards under construction.</p>
+        </div>
+    </div>
+
+    <!-- Grammar Tab Content Placeholder -->
+    <div id="tab-grammar" class="tab-content">
+        <div class="placeholder-box">
+            <h3>Grammar Guide Module</h3>
+            <p>Sentence structure breakdown lessons coming soon.</p>
+        </div>
+    </div>
+
+    <!-- Flashcards Tab Content Placeholder -->
+    <div id="tab-flashcards" class="tab-content">
+        <div class="placeholder-box">
+            <h3>Flashcards Module</h3>
+            <p>Interactive flashcard reviews coming soon.</p>
+        </div>
+    </div>
+
+    <script>
+        const song1Lyrics = [
+            {
+                zh: "曾經 / 相擁 / 時 / 有 / 多麼 / 炙熱",
+                gloss: "once before / embrace each other / when / have / how much / scorching hot",
+                en: "How fiercely burning it was when we once held each other."
+            },
+            {
+                zh: "如今 / 相對 / 時 / 才 / 冷 / 得 / 更 / 透徹",
+                gloss: "now / face each other / when / only then / cold / (complement) / even more / thoroughly",
+                en: "Now that we face each other, it's cold all the way through."
+            },
+            {
+                zh: "沒 / 在 / 愛 / 裡 / 牽扯 / 也 / 要 / 在 / 恨 / 裡 / 糾葛",
+                gloss: "not / in / love / inside / entangle / also / must / in / hate / inside / intertwined",
+                en: "If not tangled in love, then we must be intertwined in hate."
+            },
+            {
+                zh: "誰 / 都 / 別 / 想 / 逃過",
+                gloss: "who / all / don't / think (to) / escape",
+                en: "No one can even think of escaping."
+            },
+            {
+                zh: "越 / 痛 / 越 / 深刻 / 越 / 在意 / 越 / 折磨",
+                gloss: "the more / painful / the more / profound / the more / care about / the more / torment",
+                en: "The more it hurts, the deeper it runs; the more I care, the more it torments me."
+            },
+            {
+                zh: "我 / 不 / 放棄 / 你 / 你 / 別 / 放過 / 我",
+                gloss: "I / not / give up / you / you / don't / let go of / me",
+                en: "I won't give up on you—don't you let me go either."
+            },
+            {
+                zh: "任 / 命運 / 的 / 繩索 / 捆住 / 你 / 縛住 / 我",
+                gloss: "let (allow) / fate / 's / rope / tie up / you / bind / me",
+                en: "Let the ropes of fate tie you up and bind me."
+            },
+            {
+                zh: "縱 / 前方 / 行至 / 懸崖 / 也 / 一同 / 墜落",
+                gloss: "even if / ahead / walk to / cliff / still / together / fall down",
+                en: "Even if the road ahead leads to a cliff, we'll fall together."
+            },
+            {
+                zh: "難道 / 非要 / 心痛 / 才 / 知 / 早已 / 心動",
+                gloss: "could it be / must / heart ache / only then / know / already long ago / heart moved",
+                en: "Must my heart ache before I realize it was already moved long ago?"
+            },
+            {
+                zh: "（別 / 無動於衷）",
+                gloss: "(don't / be indifferent)",
+                en: "(Don't remain unmoved.)"
+            },
+            {
+                zh: "難道 / 每 / 場 / 好夢 / 都 / 注定 / 會 / 落空",
+                gloss: "could it be / every / (measure word) / good dream / all / destined / will / fall through",
+                en: "Is every beautiful dream destined to come to nothing?"
+            },
+            {
+                zh: "（別 / 無疾而終）",
+                gloss: "(don't / end without illness = wither away for no reason)",
+                en: "(Don't let it wither away for no reason.)"
+            },
+            {
+                zh: "愛 / 到底 / 恨 / 到頭 / 全都 / 毫無保留",
+                gloss: "love / to the end / hate / to the limit / all / without any reservation",
+                en: "Love to the very end, hate to the very limit—holding nothing back."
+            },
+            {
+                zh: "別 / 退後 / 別 / 鬆口 / 直到 / 竭盡 / 所有",
+                gloss: "don't / retreat / don't / loosen grip / until / exhaust / everything",
+                en: "Don't step back, don't let go, until everything is spent."
+            },
+            {
+                zh: "我們 / 不管怎樣 / 都",
+                gloss: "we / no matter how / all (will be)",
+                en: "We, no matter what happens—"
+            },
+            {
+                zh: "天長地久",
+                gloss: "sky long / earth eternal = forever and always",
+                en: "Will last forever and always."
+            },
+            {
+                zh: "感情 / 多 / 充沛 / 才 / 足夠 / 被 / 揮霍",
+                gloss: "feelings / how / abundant / only then / enough / (passive) / squander",
+                en: "Only when feelings run this abundant are they enough to be squandered."
+            },
+            {
+                zh: "我 / 沒 / 原諒 / 你 / 你 / 別 / 寬恕 / 我",
+                gloss: "I / not (have) / forgive / you / you / don't / pardon / me",
+                en: "I haven't forgiven you—don't you forgive me either."
+            },
+            {
+                zh: "任 / 燎原 / 的 / 野火 / 焚毀 / 你 / 燒盡 / 我",
+                gloss: "let (allow) / burn across the plains / 's / wildfire / incinerate / you / burn completely / me",
+                en: "Let the wildfire that scorches the plains incinerate you and burn me to ash."
+            },
+            {
+                zh: "也 / 甘願 / 做 / 這 / 飛蛾 / 撲向 / 那 / 熾熱",
+                gloss: "also / willingly / become / this / moth / dash toward / that / blazing heat",
+                en: "And I'd willingly become the moth that plunges into that blazing heat."
+            },
+            {
+                zh: "難道 / 非要 / 心痛 / 才 / 知 / 早已 / 心動",
+                gloss: "could it be / must / heart ache / only then / know / already long ago / heart moved",
+                en: "Must my heart ache before I realize it was already moved long ago?"
+            },
+            {
+                zh: "（別 / 無動於衷）",
+                gloss: "(don't / be indifferent)",
+                en: "(Don't remain unmoved.)"
+            },
+            {
+                zh: "難道 / 每 / 場 / 好夢 / 都 / 注定 / 會 / 落空",
+                gloss: "could it be / every / (measure word) / good dream / all / destined / will / fall through",
+                en: "Is every beautiful dream destined to come to nothing?"
+            },
+            {
+                zh: "（別 / 無疾而終）",
+                gloss: "(don't / end without illness = wither away for no reason)",
+                en: "(Don't let it wither away for no reason.)"
+            },
+            {
+                zh: "愛 / 到底 / 恨 / 到頭 / 全都 / 毫無保留",
+                gloss: "love / to the end / hate / to the limit / all / without any reservation",
+                en: "Love to the very end, hate to the very limit—holding nothing back."
+            },
+            {
+                zh: "別 / 退後 / 別 / 鬆口 / 直到 / 竭盡 / 所有",
+                gloss: "don't / retreat / don't / loosen grip / until / exhaust / everything",
+                en: "Don't step back, don't let go, until everything is spent."
+            },
+            {
+                zh: "我們 / 不管怎樣 / 都",
+                gloss: "we / no matter how / all (will be)",
+                en: "We, no matter what happens—"
+            },
+            {
+                zh: "天長地久",
+                gloss: "sky long / earth eternal = forever and always",
+                en: "Will last forever and always."
+            },
+            {
+                zh: "奪走 / 我 / 的 / 一切 / 你 / 是否 / 能 / 承受",
+                gloss: "take away / me / 's / everything / you / whether or not / can / bear",
+                en: "If you take everything from me, can you bear it?"
+            },
+            {
+                zh: "（給 / 你 / 這 / 一生）",
+                gloss: "(give / you / this / one lifetime)",
+                en: "(I'll give you this entire lifetime.)"
+            },
+            {
+                zh: "換來 / 你 / 的 / 一切 / 我 / 是否 / 能 / 擁有",
+                gloss: "exchange for / you / 's / everything / I / whether or not / can / possess",
+                en: "If I trade it all for everything you are, can I truly possess it?"
+            },
+            {
+                zh: "（給 / 我 / 愛 / 與 / 憎）",
+                gloss: "(give / me / love / and / hatred)",
+                en: "(Give me your love and your hatred.)"
+            },
+            {
+                zh: "淚 / 要 / 淌 / 血 / 要 / 流 / 痛 / 也 / 不願 / 放手",
+                gloss: "tears / must / flow / blood / must / spill / pain / still / not willing / let go of hand",
+                en: "Let tears flow and blood spill—even in pain I refuse to let go."
+            },
+            {
+                zh: "掙不脫 / 逃不走 / 如此 / 也 / 算 / 廝守",
+                gloss: "struggle cannot break free / flee cannot leave / like this / still / counts as / stay together",
+                en: "Can't break free, can't run away—if this counts as being together, then so be it."
+            },
+            {
+                zh: "我們 / 糾纏 / 到 / 盡頭",
+                gloss: "we / entangle / until / the very end",
+                en: "We'll stay entangled until the very end."
+            },
+            {
+                zh: "天長地久",
+                gloss: "sky long / earth eternal = forever and always",
+                en: "Forever and always."
+            },
+            {
+                zh: "你我 / 都 / 別 / 想 / 逃過",
+                gloss: "you and I / all / don't / think (to) / escape",
+                en: "Neither you nor I can even think of escaping."
+            }
+        ];
+
+        function renderSong1Lyrics() {
+            const container = document.getElementById('song1-lyrics-container');
+            container.innerHTML = song1Lyrics.map(strophe => {
+                const zhWords = strophe.zh.split('/').map(w => w.trim());
+                const glossWords = strophe.gloss.split('/').map(w => w.trim());
+
+                const wordUnitsHtml = zhWords.map((zh, i) => `
+                    <div class="word-unit">
+                        <span class="zh-word">${zh}</span>
+                        <span class="gloss-word">${glossWords[i] || ''}</span>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="strophe">
+                        <div class="word-pairs">
+                            ${wordUnitsHtml}
+                        </div>
+                        <div class="line-en">${strophe.en}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        renderSong1Lyrics();
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        const songDetails = {
+            2: { title: '光年之外 (Light Years Away)', artist: 'G.E.M. (邓紫棋)' },
+            3: { title: '青花瓷 (Blue and White Porcelain)', artist: 'Jay Chou (周杰伦)' },
+            4: { title: '演员 (Actor)', artist: 'Joker Xue (薛之谦)' },
+            5: { title: '平凡之路 (The Ordinary Road)', artist: 'Pu Shu (朴树)' }
+        };
+
+        function openSong(id) {
+            document.getElementById('song-list-view').style.display = 'none';
+            document.querySelectorAll('.lyrics-view').forEach(view => view.style.display = 'none');
+
+            if (id === 1) {
+                document.getElementById('lyrics-view-1').style.display = 'block';
+            } else {
+                const song = songDetails[id];
+                if (song) {
+                    document.getElementById('placeholder-song-title').textContent = song.title;
+                    document.getElementById('placeholder-song-artist').textContent = 'Artist: ' + song.artist;
+                }
+                document.getElementById('lyrics-view-placeholder').style.display = 'block';
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeSong() {
+            document.querySelectorAll('.lyrics-view').forEach(view => view.style.display = 'none');
+            document.getElementById('song-list-view').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
